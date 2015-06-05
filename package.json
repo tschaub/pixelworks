@@ -1,6 +1,6 @@
 {
   "name": "pxl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Utilities for working with ImageData in Workers",
   "main": "index.js",
   "scripts": {

@@ -1,0 +1,14 @@
+{
+  "name": "pxl",
+  "version": "1.0.0",
+  "description": "Utilities for working with ImageData in Workers",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify lib/index.js --debug --standalone pxl --outfile dist/pxl.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "watchify": "^3.2.1"
+  }
+}

@@ -1,15 +1,16 @@
-var swap = function(pixel) {
-  var b = pixel[0];
-  pixel[0] = pixel[2];
-  pixel[2] = b;
+var luminance = function(pixel) {
+  var l = 0.0722 * pixel[0] + 0.7152 * pixel[1] + 0.2126 * pixel[2];
+  pixel[0] = l;
+  pixel[1] = l;
+  pixel[2] = l;
 }
 
 var inputContext = document.getElementById('input').getContext('2d');
 var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
-var worker = new pxl.Worker({
-  operations: [swap],
+var worker = new pxl.Processor({
+  operations: [luminance],
   callback: function(output) {
     outputContext.putImageData(output, 0, 0);
   }

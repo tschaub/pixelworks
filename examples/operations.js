@@ -10,17 +10,18 @@ var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
 var worker = new pxl.Processor({
-  operations: [luminance],
-  callback: function(output) {
-    outputContext.putImageData(output, 0, 0);
-  }
+  operations: [luminance]
 });
 
 image.onload = function() {
   inputContext.drawImage(image, 0, 0);
   var canvas = inputContext.canvas;
   var input = inputContext.getImageData(0, 0, canvas.width, canvas.height);
-  worker.process(input);
+  worker.process(input).then(function(output) {
+    outputContext.putImageData(output, 0, 0);
+  }, function(err) {
+    throw err;
+  });
 };
 
 image.src = '0.jpg';

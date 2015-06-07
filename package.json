@@ -4,11 +4,12 @@
   "description": "Utilities for working with ImageData in Workers",
   "main": "index.js",
   "scripts": {
-    "start": "watchify lib/index.js --debug --standalone pxl --outfile dist/pxl.js"
+    "start": "webpack --watch --debug --devtool source-map --output-pathinfo"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "watchify": "^3.2.1"
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.9.10"
   }
 }

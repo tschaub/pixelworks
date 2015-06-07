@@ -1,5 +1,5 @@
 var luminance = function(pixel) {
-  var l = 0.0722 * pixel[0] + 0.7152 * pixel[1] + 0.2126 * pixel[2];
+  var l = 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2];
   pixel[0] = l;
   pixel[1] = l;
   pixel[2] = l;
@@ -10,6 +10,7 @@ var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
 var worker = new pxl.Processor({
+  threads: 2,
   operations: [luminance]
 });
 

@@ -1,4 +1,4 @@
-var luminance = function(pixels) {
+var luminance = function(pixels, data) {
   var pixel = pixels[0];
   var l = 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2];
   pixel[0] = l;
@@ -6,23 +6,50 @@ var luminance = function(pixels) {
   pixel[2] = l;
 }
 
+var color = function(pixels, data) {
+  var pixel = pixels[0];
+  var l = pixel[0];
+  if (l > data.threshold) {
+    pixel[0] = 255;
+    pixel[1] = 255;
+    pixel[2] = 150;
+    pixel[3] = 200;
+  } else {
+    pixel[3] = 0;
+  }
+}
+
 var inputContext = document.getElementById('input').getContext('2d');
 var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
 var worker = new pxl.Processor({
-  operations: [luminance]
+  operations: [luminance, color]
 });
 
-image.onload = function() {
-  inputContext.drawImage(image, 0, 0);
+var threshold = document.getElementById('threshold');
+var data = {
+  threshold: threshold.value,
+};
+
+function process() {
   var canvas = inputContext.canvas;
   var input = inputContext.getImageData(0, 0, canvas.width, canvas.height);
-  worker.process([input]).then(function(output) {
+  worker.process([input], data).then(function(output) {
     outputContext.putImageData(output, 0, 0);
   }, function(err) {
     throw err;
   });
+}
+
+threshold.oninput = function() {
+  data.threshold = this.value;
+  process();
+};
+
+image.onload = function() {
+  inputContext.drawImage(image, 0, 0);
+  process();
 };
 
 image.src = '0.jpg';

@@ -2,7 +2,7 @@
   "name": "pxl",
   "version": "0.2.0",
   "description": "Utilities for working with ImageData in Workers",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "webpack --watch --debug --devtool source-map --output-pathinfo"
   },

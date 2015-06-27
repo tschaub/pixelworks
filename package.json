@@ -4,6 +4,7 @@
   "description": "Utilities for working with ImageData in Workers",
   "main": "lib/index.js",
   "scripts": {
+    "test": "eslint lib examples",
     "start": "webpack"
   },
   "repository": {
@@ -15,6 +16,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^0.24.0",
+    "eslint-config-tschaub": "^1.0.0",
     "webpack": "^1.9.12"
   }
 }

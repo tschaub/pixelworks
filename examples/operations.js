@@ -37,10 +37,11 @@ var data = {
 function process() {
   var canvas = inputContext.canvas;
   var input = inputContext.getImageData(0, 0, canvas.width, canvas.height);
-  worker.process([input], data).then(function(output) {
+  worker.process([input], data, function(err, output) {
+    if (err) {
+      throw err;
+    }
     outputContext.putImageData(output, 0, 0);
-  }, function(err) {
-    throw err;
   });
 }
 

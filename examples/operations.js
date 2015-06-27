@@ -23,7 +23,7 @@ var inputContext = document.getElementById('input').getContext('2d');
 var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
-var worker = new pxl.Processor({
+var worker = new pixelworks.Processor({
   operations: [luminance, color]
 });
 

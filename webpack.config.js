@@ -4,8 +4,8 @@ module.exports = {
   entry: './lib/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'pxl.js',
-    library: 'pxl',
+    filename: 'pixelworks.js',
+    library: 'pixelworks',
     libraryTarget: 'umd',
     sourcePrefix: ''
   }

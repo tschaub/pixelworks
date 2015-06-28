@@ -6,6 +6,7 @@ var luminance = function(pixels, data) {
   pixel[0] = l;
   pixel[1] = l;
   pixel[2] = l;
+  return pixels;
 };
 
 var color = function(pixels, data) {
@@ -19,6 +20,7 @@ var color = function(pixels, data) {
   } else {
     pixel[3] = 0;
   }
+  return pixels;
 };
 
 var inputContext = document.getElementById('input').getContext('2d');

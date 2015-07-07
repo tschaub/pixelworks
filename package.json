@@ -4,10 +4,9 @@
   "description": "Utilities for working with ImageData in Workers",
   "main": "lib/index.js",
   "scripts": {
-    "pretest": "eslint lib examples",
-    "test": "mochify --wd --recursive test",
-    "local-test": "mochify --recursive test --consolify test.html && opener test.html",
-    "start": "mochify --recursive test --consolify test.html --watch",
+    "pretest": "eslint lib test examples",
+    "test": "karma start --single-run",
+    "start": "karma start",
     "bundle": "mkdir -p dist && browserify lib/index.js --standalone pixelworks > dist/pixelworks.js",
     "prepublish": "npm run bundle"
   },
@@ -24,10 +23,12 @@
     "chai": "^3.0.0",
     "eslint": "^0.24.0",
     "eslint-config-tschaub": "^1.0.0",
-    "min-wd": "^2.6.1",
+    "karma": "^0.12.37",
+    "karma-browserify": "^4.2.1",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-mocha": "^0.2.0",
+    "karma-sauce-launcher": "^0.2.14",
     "mocha": "^2.2.5",
-    "mochify": "^2.10.0",
-    "opener": "^1.4.1",
     "sinon": "^1.15.4"
   }
 }

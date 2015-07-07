@@ -36,6 +36,7 @@ module.exports = function(karma) {
           port: 5757
         }
       },
+      reporters: ['dots', 'saucelabs'],
       captureTimeout: 120000,
       browserNoActivityTimeout: 50000,
       customLaunchers: customLaunchers,

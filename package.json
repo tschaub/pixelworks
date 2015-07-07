@@ -4,8 +4,11 @@
   "description": "Utilities for working with ImageData in Workers",
   "main": "lib/index.js",
   "scripts": {
-    "test": "eslint lib examples",
-    "start": "webpack"
+    "pretest": "eslint lib examples",
+    "test": "mochify --wd --recursive test",
+    "local-test": "mochify --recursive test --consolify test.html && opener test.html",
+    "bundle": "mkdir -p dist && browserify lib/index.js --standalone pixelworks > dist/pixelworks.js",
+    "prepublish": "npm run bundle"
   },
   "repository": {
     "type": "git",
@@ -16,8 +19,14 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "browserify": "^10.2.4",
+    "chai": "^3.0.0",
     "eslint": "^0.24.0",
     "eslint-config-tschaub": "^1.0.0",
-    "webpack": "^1.9.12"
+    "min-wd": "^2.6.1",
+    "mocha": "^2.2.5",
+    "mochify": "^2.10.0",
+    "opener": "^1.4.1",
+    "sinon": "^1.15.4"
   }
 }

@@ -7,6 +7,7 @@
     "pretest": "eslint lib examples",
     "test": "mochify --wd --recursive test",
     "local-test": "mochify --recursive test --consolify test.html && opener test.html",
+    "start": "mochify --recursive test --consolify test.html --watch",
     "bundle": "mkdir -p dist && browserify lib/index.js --standalone pixelworks > dist/pixelworks.js",
     "prepublish": "npm run bundle"
   },

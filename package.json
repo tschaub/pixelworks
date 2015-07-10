@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "pretest": "eslint lib test examples",
-    "test": "karma start --single-run",
-    "start": "karma start",
+    "test": "karma start test/karma.conf.js --single-run",
+    "start": "karma start test/karma.conf.js",
     "bundle": "mkdir -p dist && browserify lib/index.js --standalone pixelworks > dist/pixelworks.js",
     "prepublish": "npm run bundle"
   },

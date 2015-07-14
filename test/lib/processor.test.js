@@ -79,6 +79,53 @@ describe('Processor', function() {
 
     });
 
+    it('allows library functions to be called', function(done) {
+      var lib = {
+        sum: function(a, b) {
+          return a + b;
+        },
+        diff: function(a, b) {
+          return a - b;
+        }
+      };
+
+      var normalizedDiff = function(pixels) {
+        var pixel = pixels[0];
+        var r = pixel[0];
+        var g = pixel[1];
+        /* eslint-disable */
+        var nd = diff(r, g) / sum(r, g);
+        /* eslint-enable */
+        var index = Math.round(255 * (nd + 1) / 2);
+        return [[index, index, index, pixel[3]]];
+      };
+
+      var processor = new Processor({
+        operations: [normalizedDiff],
+        lib: lib
+      });
+
+      var array = new Uint8ClampedArray([10, 2, 0, 0, 5, 8, 0, 1]);
+      var input = new ImageData(array, 1, 2);
+
+      processor.process([input], {}, function(err, output, m) {
+        if (err) {
+          done(err);
+          return;
+        }
+        assert.instanceOf(output, ImageData);
+        var v0 = Math.round(255 * (1 + 8 / 12) / 2);
+        var v1 = Math.round(255 * (1 + -3 / 13) / 2);
+        assert.deepEqual(output.data,
+            new Uint8ClampedArray([
+              v0, v0, v0, 0,
+              v1, v1, v1, 1]));
+
+        done();
+      });
+    });
+
+
     it('calls callbacks for each call', function(done) {
       var processor = new Processor({
         operations: [identity]

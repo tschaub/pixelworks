@@ -32,6 +32,8 @@ A processor runs pixel or image operations in workers.
 
  Because operations run in workers, they must only operate on the arguments they are given.
 
+ * <a id="optionslib">`lib : Object`</a> - An optional lookup of functions that can be accessed by an operation run in a worker.  Because operations are run in workers, they cannot access functions from the scope where they are authored.  The `lib` object can be used to pass additional library functions that are made available in the worker scope.  For example, if `{lib: {someFunc: function() {/* do something */}}}` were provided, the operation could call `someFunc()`.
+
  * <a id="optionsthreads">`threads : number`</a> - Pixel-wise operations can be run in parallel in multiple worker threads.  By default, a single worker thread is created for running operations.  Setting `threads: 2` would process half of the input pixels in one thread and half in another.  For image type operations, `threads` cannot be greater than `1`.  If you want to force operations to run in the main (UI) thread, set `threads: 0`.
 
  * <a id="optionsqueue">`queue : number`</a> - Maximum queue length.  This limits the number of pending workers when `process` is called multiple times before work completes.  If you want to call `process` many times (in response to user generated events for example), set `queue: 1`, and only one worker will be pending at a time.

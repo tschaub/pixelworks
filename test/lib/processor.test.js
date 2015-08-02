@@ -7,13 +7,13 @@ var Processor = require('../../lib/processor');
 describe('Processor', function() {
 
   var identity = function(inputs) {
-    return inputs;
+    return inputs[0];
   };
 
   describe('constructor', function() {
     it('creates a new processor', function() {
       var processor = new Processor({
-        operations: [identity]
+        operation: identity
       });
 
       assert.instanceOf(processor, Processor);
@@ -22,17 +22,17 @@ describe('Processor', function() {
 
   describe('#process()', function() {
 
-    it('calls operations with input pixels', function(done) {
+    it('calls operation with input pixels', function(done) {
 
       var processor = new Processor({
-        operations: [function(inputs, meta) {
+        operation: function(inputs, meta) {
           ++meta.count;
           var pixel = inputs[0];
           for (var i = 0, ii = pixel.length; i < ii; ++i) {
             meta.sum += pixel[i];
           }
-          return inputs;
-        }]
+          return pixel;
+        }
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -53,14 +53,14 @@ describe('Processor', function() {
     it('calls callback with processed image data', function(done) {
 
       var processor = new Processor({
-        operations: [function(inputs) {
+        operation: function(inputs) {
           var pixel = inputs[0];
           pixel[0] *= 2;
           pixel[1] *= 2;
           pixel[2] *= 2;
           pixel[3] *= 2;
-          return inputs;
-        }]
+          return pixel;
+        }
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -97,11 +97,11 @@ describe('Processor', function() {
         var nd = diff(r, g) / sum(r, g);
         /* eslint-enable */
         var index = Math.round(255 * (nd + 1) / 2);
-        return [[index, index, index, pixel[3]]];
+        return [index, index, index, pixel[3]];
       };
 
       var processor = new Processor({
-        operations: [normalizedDiff],
+        operation: normalizedDiff,
         lib: lib
       });
 
@@ -128,7 +128,7 @@ describe('Processor', function() {
 
     it('calls callbacks for each call', function(done) {
       var processor = new Processor({
-        operations: [identity]
+        operation: identity
       });
 
       var calls = 0;
@@ -158,7 +158,7 @@ describe('Processor', function() {
     it('respects max queue length', function(done) {
       var processor = new Processor({
         queue: 1,
-        operations: [identity]
+        operation: identity
       });
 
       var log = [];
@@ -198,10 +198,10 @@ describe('Processor', function() {
       identitySpy = sinon.spy(identity);
     });
 
-    it('calls operations with input pixels', function(done) {
+    it('calls operation with input pixels', function(done) {
       var processor = new Processor({
         threads: 0,
-        operations: [identitySpy]
+        operation: identitySpy
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -223,7 +223,7 @@ describe('Processor', function() {
     it('passes meta object to operations', function(done) {
       var processor = new Processor({
         threads: 0,
-        operations: [identitySpy]
+        operation: identitySpy
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4]);
@@ -249,7 +249,7 @@ describe('Processor', function() {
     it('stops callbacks from being called', function(done) {
 
       var processor = new Processor({
-        operations: [identity]
+        operation: identity
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
@@ -272,7 +272,7 @@ describe('Processor', function() {
 
       var processor = new Processor({
         threads: 0,
-        operations: [identity]
+        operation: identity
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);

@@ -19,16 +19,23 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^10.2.4",
-    "chai": "^3.0.0",
-    "eslint": "^0.24.0",
-    "eslint-config-tschaub": "^1.0.0",
-    "karma": "^0.12.37",
-    "karma-browserify": "^4.2.1",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-mocha": "^0.2.0",
-    "karma-sauce-launcher": "^0.2.14",
-    "mocha": "^2.2.5",
-    "sinon": "^1.15.4"
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "eslint": "^2.2.0",
+    "eslint-config-tschaub": "^4.0.0",
+    "karma": "^0.13.21",
+    "karma-browserify": "^5.0.2",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-mocha": "^0.2.2",
+    "karma-sauce-launcher": "^0.3.0",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "watchify": "^3.7.0"
+  },
+  "eslintConfig": {
+    "extends": "tschaub",
+    "globals": {
+      "ImageData": false
+    }
   }
 }

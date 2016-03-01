@@ -1,8 +1,9 @@
 /* eslint-env mocha */
-var assert = require('chai').assert;
-var sinon = require('sinon');
 
 var Processor = require('../../lib/processor');
+var assert = require('chai').assert;
+var newImageData = require('../../lib/util').newImageData;
+var sinon = require('sinon');
 
 describe('Processor', function() {
 
@@ -36,7 +37,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {count: 0, sum: 0}, function(err, output, m) {
         if (err) {
@@ -64,7 +65,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
@@ -106,7 +107,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([10, 2, 0, 0, 5, 8, 0, 1]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
@@ -145,7 +146,7 @@ describe('Processor', function() {
       }
 
       for (var i = 0; i < 5; ++i) {
-        var input = new ImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
+        var input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
         processor.process([input], {}, createCallback(i));
       }
 
@@ -174,7 +175,7 @@ describe('Processor', function() {
       }
 
       for (var i = 0; i < 5; ++i) {
-        var input = new ImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
+        var input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
         processor.process([input], {}, createCallback(i));
       }
 
@@ -205,7 +206,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
@@ -227,7 +228,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4]);
-      var input = new ImageData(array, 1, 1);
+      var input = newImageData(array, 1, 1);
       var meta = {foo: 'bar'};
 
       processor.process([input], meta, function(err, output, m) {
@@ -253,7 +254,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function() {
         done(new Error('Expected abort to stop callback from being called'));
@@ -276,7 +277,7 @@ describe('Processor', function() {
       });
 
       var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = new ImageData(array, 1, 2);
+      var input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function() {
         done(new Error('Expected abort to stop callback from being called'));

@@ -2,9 +2,9 @@ module.exports = function(karma) {
 
   karma.set({
     frameworks: ['browserify', 'mocha'],
-    files: ['test/**/*.js'],
+    files: ['**/*.test.js'],
     preprocessors: {
-      'test/**/*.js': ['browserify']
+      '**/*.test.js': ['browserify']
     },
     browserify: {
       debug: true
@@ -26,6 +26,12 @@ module.exports = function(karma) {
       'SL_Firefox': {
         base: 'SauceLabs',
         browserName: 'firefox'
+      },
+      'SL_IE_11': {
+        base: 'SauceLabs',
+        browserName: 'internet explorer',
+        platform: 'Windows 8.1',
+        version: '11'
       }
     };
     karma.set({
@@ -37,8 +43,8 @@ module.exports = function(karma) {
         }
       },
       reporters: ['dots', 'saucelabs'],
-      captureTimeout: 120000,
-      browserNoActivityTimeout: 50000,
+      captureTimeout: 240000,
+      browserNoActivityTimeout: 240000,
       customLaunchers: customLaunchers,
       browsers: Object.keys(customLaunchers)
     });

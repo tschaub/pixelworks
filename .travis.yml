@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - 0.12
+cache:
+  directories:
+    - node_modules
 env:
   global:
     - secure: ZRuykw2aNwaDzhtwoks7K7BEG+dphpGWdqsnTfl2BjbjMhO6uAiVGeqbbaXeuJzV2kue4N5BiodQ/d0NQoaLVIzdt2Te+Ht1QlSauCeM5f7X4NeJU+LItS8mwdJz7FRsFrg6OknYYxCvYmKGs20QeMsqDB5S4D6Qx7LqUpWnzECXrHaTCel16xoHO6QK2/LPAh8BrD0u+tdI4GR8LME1/YaNHwHDphGyQJDl5gWlcUMrwO/OFU2q0/M5KRJ0vhQ4ewtezYTkDl4L7YyCPAc4WskyMe/kqZJUUSfnJguKguPePRxBUJ+QD+VmDEAr6hMXUlM4GrLaMjfugZtokJxGEVwO3+EXrkXXQkOpDLsAo6WSqxO9h/05Xc6xXC1jx+oysiI2MTaZF3rJecGhfTKfiMTKOpWrDsZTQ7vCyXWv3AWHllK+DQZelV51V/q2EoE1w5YyM8ZSDRWmO56W6u9MRpMD/mV2G+T9ANftuVLGdzk3Xk8PC2/KPzX1M+3LfjFL4z7SIOen65TrTZ3SwgsgZJMyp2IcNLNnyFKYGNhg/7DzUO//7Cg+HIIgUzIaSo7URjgg3R+YcjUz0m3mHLtGdEGeuxE+VGnixkeGxrnQ5eVO7cEyZyMskVA7i3mYwwS4adXHTUpQ4FJ/W50UflK8egbJBZJ16jkI+H4yq1L13Qs=

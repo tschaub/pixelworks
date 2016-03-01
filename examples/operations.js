@@ -1,6 +1,6 @@
 /* global pixelworks */
 
-var luminance = function(pixels, data) {
+var luminance = function(pixels) {
   var pixel = pixels[0];
   var l = 0.2126 * pixel[0] + 0.7152 * pixel[1] + 0.0722 * pixel[2];
   pixel[0] = l;
@@ -20,7 +20,7 @@ var color = function(pixels, data) {
   } else {
     pixel[3] = 0;
   }
-  return pixels;
+  return pixel;
 };
 
 var inputContext = document.getElementById('input').getContext('2d');
@@ -28,7 +28,13 @@ var outputContext = document.getElementById('output').getContext('2d');
 var image = new Image();
 
 var worker = new pixelworks.Processor({
-  operations: [luminance, color]
+  operation: function(pixels, data) {
+    return color(luminance(pixels), data);
+  },
+  lib: {
+    luminance: luminance,
+    color: color
+  }
 });
 
 var threshold = document.getElementById('threshold');

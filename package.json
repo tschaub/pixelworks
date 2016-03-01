@@ -36,6 +36,9 @@
     "extends": "tschaub",
     "globals": {
       "ImageData": false
+    },
+    "rules": {
+      "dot-notation": 0
     }
   }
 }

@@ -26,7 +26,7 @@ A processor runs pixel or image operations in workers.
 
  * <a id="optionsimageops">`imageOps : boolean`</a> - By default, operations will be called for each pixel.  By setting `imageOps: true`, operations will be called with an `ImageData` object.
 
- * <a id="optionsoperations">`operation : Function`</a> - A function that processes input data and returns output data.  The operation will be called with two arguments: an array of inputs, and a user storage object.  By default, operations will be called for each pixel in the input data, and the first argument is an array of input pixels (each a `[R, G, B, A]` array).  If `imageOps` is `false`, the first argument will be an array of `ImageData` objects.  The second object is the user storage object passed to the `process` method.
+ * <a id="optionsoperations">`operation : Function`</a> - A function that processes input data and returns output data.  The operation will be called with two arguments: an array of inputs, and a user storage object.  By default, operations will be called for each pixel in the input data, and the first argument is an array of input pixels (each a `[R, G, B, A]` array).  If `imageOps` is `true`, the first argument will be an array of `ImageData` objects.  The second object is the user storage object passed to the `process` method.
 
  Operations return processed output data.  For pixel-wise operations, this must be an output pixel (a `[R, G, B, A]` array).  For image operations, this must be an `ImageData` object.
 

@@ -6,7 +6,6 @@ var newImageData = require('../../lib/util').newImageData;
 var sinon = require('sinon');
 
 describe('Processor', function() {
-
   var identity = function(inputs) {
     return inputs[0];
   };
@@ -22,9 +21,7 @@ describe('Processor', function() {
   });
 
   describe('#process()', function() {
-
     it('calls operation with input pixels', function(done) {
-
       var processor = new Processor({
         operation: function(inputs, meta) {
           ++meta.count;
@@ -48,11 +45,9 @@ describe('Processor', function() {
         assert.equal(m.sum, 36);
         done();
       });
-
     });
 
     it('calls callback with processed image data', function(done) {
-
       var processor = new Processor({
         operation: function(inputs) {
           var pixel = inputs[0];
@@ -73,11 +68,12 @@ describe('Processor', function() {
           return;
         }
         assert.instanceOf(output, ImageData);
-        assert.deepEqual(output.data,
-            new Uint8ClampedArray([2, 4, 6, 8, 10, 12, 14, 16]));
+        assert.deepEqual(
+          output.data,
+          new Uint8ClampedArray([2, 4, 6, 8, 10, 12, 14, 16])
+        );
         done();
       });
-
     });
 
     it('allows library functions to be called', function(done) {
@@ -117,15 +113,14 @@ describe('Processor', function() {
         assert.instanceOf(output, ImageData);
         var v0 = Math.round(255 * (1 + 8 / 12) / 2);
         var v1 = Math.round(255 * (1 + -3 / 13) / 2);
-        assert.deepEqual(output.data,
-            new Uint8ClampedArray([
-              v0, v0, v0, 0,
-              v1, v1, v1, 1]));
+        assert.deepEqual(
+          output.data,
+          new Uint8ClampedArray([v0, v0, v0, 0, v1, v1, v1, 1])
+        );
 
         done();
       });
     });
-
 
     it('calls callbacks for each call', function(done) {
       var processor = new Processor({
@@ -189,11 +184,9 @@ describe('Processor', function() {
         done();
       }, 1000);
     });
-
   });
 
   describe('#process() - faux worker', function() {
-
     var identitySpy;
     beforeEach(function() {
       identitySpy = sinon.spy(identity);
@@ -218,7 +211,6 @@ describe('Processor', function() {
         assert.lengthOf(first.args, 2);
         done();
       });
-
     });
 
     it('passes meta object to operations', function(done) {
@@ -240,15 +232,11 @@ describe('Processor', function() {
         assert.equal(identitySpy.callCount, 1);
         done();
       });
-
     });
-
   });
 
   describe('#destroy()', function() {
-
     it('stops callbacks from being called', function(done) {
-
       var processor = new Processor({
         operation: identity
       });
@@ -262,15 +250,11 @@ describe('Processor', function() {
 
       processor.destroy();
       setTimeout(done, 500);
-
     });
-
   });
 
   describe('#destroy() - faux worker', function() {
-
     it('stops callbacks from being called', function(done) {
-
       var processor = new Processor({
         threads: 0,
         operation: identity
@@ -285,9 +269,6 @@ describe('Processor', function() {
 
       processor.destroy();
       setTimeout(done, 20);
-
     });
-
   });
-
 });

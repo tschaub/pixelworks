@@ -12,8 +12,6 @@ The `pixelworks` package is meant to be used in a browser with a CommonJS module
 
     var pixelworks = require('pixelworks');
 
-The package also comes with a standalone build in the `dist` directory that can be added to a page with a script tag.  If a module loader is not present, this script will make a global `pixelworks` object available.
-
 ## API
 
 ### `new Processor(options)`

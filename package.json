@@ -28,7 +28,7 @@
     "browserify": "^16.0.0",
     "chai": "^4.1.2",
     "eslint": "^4.17.0",
-    "eslint-config-tschaub": "^10.0.0",
+    "eslint-config-tschaub": "^11.0.0",
     "karma": "^2.0.0",
     "karma-browserify": "^5.2.0",
     "karma-chrome-launcher": "^2.0.0",

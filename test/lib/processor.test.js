@@ -1,18 +1,21 @@
 /* eslint-env mocha */
 
-var Processor = require('../../lib/processor');
-var assert = require('chai').assert;
-var newImageData = require('../../lib/util').newImageData;
-var sinon = require('sinon');
+const Processor = require('../../lib/processor');
+const chai = require('chai');
+const newImageData = require('../../lib/util').newImageData;
+const spies = require('chai-spies');
+
+chai.use(spies);
+const assert = chai.assert;
 
 describe('Processor', function() {
-  var identity = function(inputs) {
+  const identity = function(inputs) {
     return inputs[0];
   };
 
   describe('constructor', function() {
     it('creates a new processor', function() {
-      var processor = new Processor({
+      const processor = new Processor({
         operation: identity
       });
 
@@ -22,19 +25,19 @@ describe('Processor', function() {
 
   describe('#process()', function() {
     it('calls operation with input pixels', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         operation: function(inputs, meta) {
           ++meta.count;
-          var pixel = inputs[0];
-          for (var i = 0, ii = pixel.length; i < ii; ++i) {
+          const pixel = inputs[0];
+          for (let i = 0, ii = pixel.length; i < ii; ++i) {
             meta.sum += pixel[i];
           }
           return pixel;
         }
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {count: 0, sum: 0}, function(err, output, m) {
         if (err) {
@@ -48,9 +51,9 @@ describe('Processor', function() {
     });
 
     it('calls callback with processed image data', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         operation: function(inputs) {
-          var pixel = inputs[0];
+          const pixel = inputs[0];
           pixel[0] *= 2;
           pixel[1] *= 2;
           pixel[2] *= 2;
@@ -59,8 +62,8 @@ describe('Processor', function() {
         }
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
@@ -77,7 +80,7 @@ describe('Processor', function() {
     });
 
     it('allows library functions to be called', function(done) {
-      var lib = {
+      const lib = {
         sum: function(a, b) {
           return a + b;
         },
@@ -86,24 +89,22 @@ describe('Processor', function() {
         }
       };
 
-      var normalizedDiff = function(pixels) {
-        var pixel = pixels[0];
-        var r = pixel[0];
-        var g = pixel[1];
-        /* eslint-disable */
-        var nd = diff(r, g) / sum(r, g);
-        /* eslint-enable */
-        var index = Math.round(255 * (nd + 1) / 2);
+      const normalizedDiff = function(pixels) {
+        const pixel = pixels[0];
+        const r = pixel[0];
+        const g = pixel[1];
+        const nd = diff(r, g) / sum(r, g); // eslint-disable-line no-undef
+        const index = Math.round((255 * (nd + 1)) / 2);
         return [index, index, index, pixel[3]];
       };
 
-      var processor = new Processor({
+      const processor = new Processor({
         operation: normalizedDiff,
         lib: lib
       });
 
-      var array = new Uint8ClampedArray([10, 2, 0, 0, 5, 8, 0, 1]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([10, 2, 0, 0, 5, 8, 0, 1]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
@@ -111,8 +112,8 @@ describe('Processor', function() {
           return;
         }
         assert.instanceOf(output, ImageData);
-        var v0 = Math.round(255 * (1 + 8 / 12) / 2);
-        var v1 = Math.round(255 * (1 + -3 / 13) / 2);
+        const v0 = Math.round((255 * (1 + 8 / 12)) / 2);
+        const v1 = Math.round((255 * (1 + -3 / 13)) / 2);
         assert.deepEqual(
           output.data,
           new Uint8ClampedArray([v0, v0, v0, 0, v1, v1, v1, 1])
@@ -123,11 +124,11 @@ describe('Processor', function() {
     });
 
     it('calls callbacks for each call', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         operation: identity
       });
 
-      var calls = 0;
+      let calls = 0;
 
       function createCallback(index) {
         return function(err, output, meta) {
@@ -140,8 +141,8 @@ describe('Processor', function() {
         };
       }
 
-      for (var i = 0; i < 5; ++i) {
-        var input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
+      for (let i = 0; i < 5; ++i) {
+        const input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
         processor.process([input], {}, createCallback(i));
       }
 
@@ -152,12 +153,12 @@ describe('Processor', function() {
     });
 
     it('respects max queue length', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         queue: 1,
         operation: identity
       });
 
-      var log = [];
+      const log = [];
 
       function createCallback(index) {
         return function(err, output, meta) {
@@ -169,8 +170,8 @@ describe('Processor', function() {
         };
       }
 
-      for (var i = 0; i < 5; ++i) {
-        var input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
+      for (let i = 0; i < 5; ++i) {
+        const input = newImageData(new Uint8ClampedArray([1, 2, 3, 4]), 1, 1);
         processor.process([input], {}, createCallback(i));
       }
 
@@ -187,41 +188,41 @@ describe('Processor', function() {
   });
 
   describe('#process() - faux worker', function() {
-    var identitySpy;
+    let identitySpy;
     beforeEach(function() {
-      identitySpy = sinon.spy(identity);
+      identitySpy = chai.spy(identity);
     });
 
     it('calls operation with input pixels', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         threads: 0,
         operation: identitySpy
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function(err, output, m) {
         if (err) {
           done(err);
           return;
         }
-        assert.equal(identitySpy.callCount, 2);
-        var first = identitySpy.getCall(0);
-        assert.lengthOf(first.args, 2);
+        assert.lengthOf(identitySpy.__spy.calls, 2);
+        const first = identitySpy.__spy.calls[0];
+        assert.lengthOf(first, 2);
         done();
       });
     });
 
     it('passes meta object to operations', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         threads: 0,
         operation: identitySpy
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4]);
-      var input = newImageData(array, 1, 1);
-      var meta = {foo: 'bar'};
+      const array = new Uint8ClampedArray([1, 2, 3, 4]);
+      const input = newImageData(array, 1, 1);
+      const meta = {foo: 'bar'};
 
       processor.process([input], meta, function(err, output, m) {
         if (err) {
@@ -229,7 +230,7 @@ describe('Processor', function() {
           return;
         }
         assert.deepEqual(m, meta);
-        assert.equal(identitySpy.callCount, 1);
+        assert.lengthOf(identitySpy.__spy.calls, 1);
         done();
       });
     });
@@ -237,12 +238,12 @@ describe('Processor', function() {
 
   describe('#destroy()', function() {
     it('stops callbacks from being called', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         operation: identity
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function() {
         done(new Error('Expected abort to stop callback from being called'));
@@ -255,13 +256,13 @@ describe('Processor', function() {
 
   describe('#destroy() - faux worker', function() {
     it('stops callbacks from being called', function(done) {
-      var processor = new Processor({
+      const processor = new Processor({
         threads: 0,
         operation: identity
       });
 
-      var array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
-      var input = newImageData(array, 1, 2);
+      const array = new Uint8ClampedArray([1, 2, 3, 4, 5, 6, 7, 8]);
+      const input = newImageData(array, 1, 2);
 
       processor.process([input], {}, function() {
         done(new Error('Expected abort to stop callback from being called'));

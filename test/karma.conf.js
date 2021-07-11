@@ -1,53 +1,10 @@
-module.exports = function(karma) {
-  karma.set({
-    frameworks: ['browserify', 'mocha'],
-    files: ['**/*.test.js'],
+module.exports = function(config) {
+  config.set({
+    browsers: [process.env.CI ? 'ChromeHeadless' : 'Chrome'],
+    frameworks: ['mocha'],
     preprocessors: {
-      '**/*.test.js': ['browserify']
+      '**/*.test.js': ['esbuild']
     },
-    browserify: {
-      debug: true
-    }
+    files: ['**/*.test.js']
   });
-
-  if (process.env.TRAVIS) {
-    if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {
-      process.stderr.write('SAUCE_USERNAME or SAUCE_ACCESS_KEY not set\n');
-      process.exit(1);
-    }
-
-    var customLaunchers = {
-      SL_Chrome: {
-        base: 'SauceLabs',
-        browserName: 'chrome'
-      },
-      SL_Firefox: {
-        base: 'SauceLabs',
-        browserName: 'firefox'
-      },
-      SL_IE_11: {
-        base: 'SauceLabs',
-        browserName: 'internet explorer',
-        platform: 'Windows 8.1',
-        version: '11'
-      }
-    };
-    karma.set({
-      sauceLabs: {
-        testName: 'pixelworks',
-        recordScreenshots: false,
-        startConnect: false,
-        tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
-      },
-      reporters: ['dots', 'saucelabs'],
-      captureTimeout: 240000,
-      browserNoActivityTimeout: 240000,
-      customLaunchers: customLaunchers,
-      browsers: Object.keys(customLaunchers)
-    });
-  } else {
-    karma.set({
-      browsers: ['Chrome']
-    });
-  }
 };
